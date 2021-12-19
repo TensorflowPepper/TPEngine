@@ -1763,6 +1763,18 @@ class PlayState extends MusicBeatState
 							altAnim = '-alt';
 					}
 
+					var d = FlxG.save.data.healthDrain;
+					trace(FlxG.save.data.healthDrain);
+					var a:Array<Array<String>> = d.a;
+
+					for (i in a) {
+						if (i[0].toLowerCase() == dad.curCharacter.toLowerCase()) {
+							if (health > Std.parseFloat(i[2])) {
+								health -= Std.parseFloat(i[1]);
+							}
+						}
+					}
+
 					switch (Math.abs(daNote.noteData))
 					{
 						case 0:

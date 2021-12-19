@@ -54,6 +54,11 @@ class TitleState extends MusicBeatState
 
 		super.create();
 
+		if (FlxG.save.data.healthDrain == null) {
+			FlxG.save.data.healthDrain = [['dad', '0.15', '0.2']];
+			FlxG.save.flush();
+		}
+
 		#if ng
 		var ng:NGio = new NGio(APIStuff.API, APIStuff.EncKey);
 		trace('NEWGROUNDS LOL');
