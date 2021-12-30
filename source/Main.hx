@@ -17,6 +17,16 @@ class Main extends Sprite
 	var framerate:Int = 60; // How many frames per second the game should run at.
 	var skipSplash:Bool = true; // Whether to skip the flixel splash screen that appears in release mode.
 	var startFullscreen:Bool = false; // Whether to start the game in fullscreen on desktop targets
+	
+	public static var editor:Bool = false;
+	public static var menuBad:Bool = false;
+	public static var woops:Bool = false;
+	public static var skipDes:Bool = false;
+	public static var drums:Bool = false;
+	public static var diff = 1;
+	public static var keyAmmo:Array<Int> = [4, 6, 9];
+	public static var dataJump:Array<Int> = [8, 12, 18];
+	public static var god:Bool = false;
 
 	// You can pretty much ignore everything from here on - your code should go in your states.
 

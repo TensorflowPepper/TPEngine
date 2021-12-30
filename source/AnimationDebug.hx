@@ -37,7 +37,7 @@ class AnimationDebug extends FlxState
 		FlxG.sound.music.stop();
 		FlxG.sound.playMusic(Paths.music('breakfast'), 0);
 
-		background = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
+		background = new FlxSprite().loadGraphic(Paths.image('menuBG'));
 		add(background);
 
 		if (daAnim == 'bf')
@@ -92,6 +92,7 @@ class AnimationDebug extends FlxState
 			var text:FlxText = new FlxText(10, 20 + (18 * daLoop), 0, anim + ": " + offsets, 15);
 			text.scrollFactor.set();
 			text.color = FlxColor.BLUE;
+			text.setFormat(Paths.font("vcr.ttf"), 32);
 			dumbTexts.add(text);
 
 			if (pushList)
@@ -113,6 +114,9 @@ class AnimationDebug extends FlxState
 	override function update(elapsed:Float)
 	{
 		if (FlxG.keys.justPressed.ENTER || FlxG.keys.justPressed.ESCAPE) {
+			var curList:Array<Dynamic> = FlxG.save.data.animOffset;
+			curList.push([isDad ? dad.curCharacter : "bf", char.animOffsets]);
+			FlxG.save.flush();
 			FlxG.switchState(new PlayState());
 		}
 

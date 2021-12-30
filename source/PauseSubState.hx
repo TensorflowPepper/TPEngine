@@ -12,6 +12,7 @@ import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
+import flixel.FlxCamera;
 
 class PauseSubState extends MusicBeatSubstate
 {
@@ -23,6 +24,7 @@ class PauseSubState extends MusicBeatSubstate
 	var pauseMusic:FlxSound;
 
 	var practiceWatermark:FlxText = new FlxText(20, 15 + 32  + 32 + 32, 0, "Practice Mode Enabled", 32);
+	public static var transCamera:FlxCamera;
 
 	public function new(x:Float, y:Float)
 	{
@@ -178,20 +180,50 @@ class PauseSubState extends MusicBeatSubstate
 					practiceWatermark.visible = !(practiceWatermark.visible);
 					PlayState.practice = !PlayState.practice;
 				case "Easy":
+					var name:String = PlayState.SONG.song.toLowerCase();
+					var poop = Highscore.formatSong(name, curSelected);
+					PlayState.SONG = Song.loadFromJson(poop, name);
 					PlayState.storyDifficulty = 0;
-					FlxG.resetState();
+					CustomFadeTransition.nextCamera = transCamera;
+					MusicBeatState.resetState();
+					FlxG.sound.music.volume = 0;
+					return;
 				case "Normal":
+					var name:String = PlayState.SONG.song.toLowerCase();
+					var poop = Highscore.formatSong(name, curSelected);
+					PlayState.SONG = Song.loadFromJson(poop, name);
 					PlayState.storyDifficulty = 1;
-					FlxG.resetState();
+					CustomFadeTransition.nextCamera = transCamera;
+					MusicBeatState.resetState();
+					FlxG.sound.music.volume = 0;
+					return;
 				case "Hard":
+					var name:String = PlayState.SONG.song.toLowerCase();
+					var poop = Highscore.formatSong(name, curSelected);
+					PlayState.SONG = Song.loadFromJson(poop, name);
 					PlayState.storyDifficulty = 2;
-					FlxG.resetState();
+					CustomFadeTransition.nextCamera = transCamera;
+					MusicBeatState.resetState();
+					FlxG.sound.music.volume = 0;
+					return;
 				case "Expert":
+					var name:String = PlayState.SONG.song.toLowerCase();
+					var poop = Highscore.formatSong(name, curSelected);
+					PlayState.SONG = Song.loadFromJson(poop, name);
 					PlayState.storyDifficulty = 3;
-					FlxG.resetState();
+					CustomFadeTransition.nextCamera = transCamera;
+					MusicBeatState.resetState();
+					FlxG.sound.music.volume = 0;
+					return;
 				case "Insane":
+					var name:String = PlayState.SONG.song.toLowerCase();
+					var poop = Highscore.formatSong(name, curSelected);
+					PlayState.SONG = Song.loadFromJson(poop, name);
 					PlayState.storyDifficulty = 4;
-					FlxG.resetState();
+					CustomFadeTransition.nextCamera = transCamera;
+					MusicBeatState.resetState();
+					FlxG.sound.music.volume = 0;
+					return;
 			}
 		}
 	}

@@ -106,6 +106,21 @@ class PlayState extends MusicBeatState
 	private var timeWatermark:FlxText;
 	#end
 
+	//Extra-Key Support!
+	private var gfxIndex:Array<Dynamic> = [
+		[4],
+		[0, 3],
+		[0, 4, 3],
+		[0, 1, 2, 3],
+		[0, 1, 4, 2, 3],
+		[0, 2, 3, 5, 1, 8],
+		[0, 2, 3, 4, 5, 1, 8],
+		[0, 1, 2, 3, 5, 6, 7, 8],
+		[0, 1, 2, 3, 4, 5, 6, 7, 8]
+	];
+
+	private var keyCount:Int;
+
 	private var curSongData:Array<String>;
 
 	private var generatedMusic:Bool = false;
@@ -164,6 +179,8 @@ class PlayState extends MusicBeatState
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 
+		if (!videoFinished && SONG.song.toLowerCase() == "tutorial") FlxG.switchState(new VideoState("assets/videos/week7/ughCutscene.webm", new PlayState()));
+
 		// var gameCam:FlxCamera = FlxG.camera;
 		camGame = new FlxCamera();
 		camHUD = new FlxCamera();
@@ -171,6 +188,18 @@ class PlayState extends MusicBeatState
 
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camHUD);
+
+		if (FlxG.save.data.healthDrain == null) {
+			FlxG.save.data.healthDrain = [['dad', '0.15', '0.2']];
+			FlxG.save.flush();
+		}
+
+		if (FlxG.save.data.animOffset == null) {
+			FlxG.save.data.animOffset = [];
+			FlxG.save.flush();
+		}
+
+		trace (FlxG.save.data.animOffset);
 
 		FlxG.cameras.setDefaultDrawTarget(camGame, true);
 
@@ -180,8 +209,6 @@ class PlayState extends MusicBeatState
 		if (SONG == null)
 			SONG = Song.loadFromJson('tutorial');
 
-		if (!videoFinished && SONG.song.toLowerCase() == "tutorial") FlxG.switchState(new VideoState("assets/videos/week7/ughCutscene.webm", new PlayState()));
-
 		Conductor.mapBPMChanges(SONG);
 		Conductor.changeBPM(Std.int(SONG.bpm));
 		curSongData = CoolUtil.coolTextFile(Paths.modTxt(SONG.song.toLowerCase().replace(' ', '-'), "songdata"));
@@ -189,6 +216,8 @@ class PlayState extends MusicBeatState
 		var curAdd:Bool = false;
 
 		curSongDifficultyLists = [];
+
+		keyCount = SONG.keyCount != null ? SONG.keyCount : 4;
 
 		for (i in 3...8) {
 			switch (curSongData[i]) {
@@ -1213,12 +1242,13 @@ class PlayState extends MusicBeatState
 
 	function sortByShit(Obj1:Note, Obj2:Note):Int
 	{
-		return FlxSort.byValues(FlxG.save.data.downscroll ? FlxSort.DESCENDING : FlxSort.ASCENDING, Obj1.strumTime, Obj2.strumTime);
+		//return FlxSort.byValues(FlxG.save.data.downscroll ? FlxSort.DESCENDING : FlxSort.ASCENDING, Obj1.strumTime, Obj2.strumTime);
+		return FlxSort.byValues(FlxSort.ASCENDING, Obj1.strumTime, Obj2.strumTime);
 	}
 
 	private function generateStaticArrows(player:Int):Void
 	{
-		for (i in 0...4)
+		for (i in 0...keyCount)
 		{
 			// FlxG.log.add(i);
 			var babyArrow:FlxSprite = new FlxSprite(0, strumLine.y);
@@ -1229,6 +1259,8 @@ class PlayState extends MusicBeatState
 				noteTypeCheck = 'normal';
 				switch(storyWeek) {case 6: noteTypeCheck = 'pixel';}
 			} else noteTypeCheck = SONG.noteStyle;
+			
+			babyArrow.x += FlxG.save.data.middleScroll ? STRUM_X_MIDDLESCROLL : STRUM_X;
 
 			switch (noteTypeCheck)
 			{
@@ -1737,7 +1769,8 @@ class PlayState extends MusicBeatState
 		{
 			notes.forEachAlive(function(daNote:Note)
 			{
-				daNote.y = (strumLine.y - (Conductor.songPosition - daNote.strumTime) * (0.45 * FlxMath.roundDecimal(SONG.speed, 2)));
+				var mulDownScroll:Int = FlxG.save.data.downscroll ? -1 : 1;
+				daNote.y = (strumLine.y - (Conductor.songPosition - daNote.strumTime) * (0.45 * FlxMath.roundDecimal(SONG.speed, 2)) * mulDownScroll);
 
 				if (daNote.tooLate)
 				{
@@ -1763,11 +1796,9 @@ class PlayState extends MusicBeatState
 							altAnim = '-alt';
 					}
 
-					var d = FlxG.save.data.healthDrain;
-					trace(FlxG.save.data.healthDrain);
-					var a:Array<Array<String>> = d.a;
+					var d:Array<Array<String>> = FlxG.save.data.healthDrain;
 
-					for (i in a) {
+					for (i in d) {
 						if (i[0].toLowerCase() == dad.curCharacter.toLowerCase()) {
 							if (health > Std.parseFloat(i[2])) {
 								health -= Std.parseFloat(i[1]);
@@ -1825,7 +1856,7 @@ class PlayState extends MusicBeatState
 				// WIP interpolation shit? Need to fix the pause issue
 				// daNote.y = (strumLine.y - (songTime - daNote.strumTime) * (0.45 * PlayState.SONG.speed));
 
-				if (daNote.y < -daNote.height)
+				if ((!FlxG.save.data.downscroll && daNote.y < -daNote.height) || (FlxG.save.data.downscroll && daNote.y > FlxG.height + daNote.height))
 				{
 					if (daNote.tooLate || !daNote.wasGoodHit)
 					{
@@ -2405,12 +2436,12 @@ class PlayState extends MusicBeatState
 			note.wasGoodHit = true;
 			vocals.volume = 1;
 
-			if (!note.isSustainNote)
-			{
-				note.kill();
-				notes.remove(note, true);
-				note.destroy();
-			}
+			//if (!note.isSustainNote)
+			//{
+			note.kill();
+			notes.remove(note, true);
+			note.destroy();
+			//}
 		}
 	}
 

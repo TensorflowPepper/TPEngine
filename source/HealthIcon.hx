@@ -5,7 +5,7 @@ import flixel.FlxSprite;
 class HealthIcon extends FlxSprite
 {
 	/**
-	 * Used for FreeplayState! If you use it elsewhere, prob gonna annoying
+	 * Used for MusicPlayerState! If you use it elsewhere, prob gonna annoying
 	 */
 	public var sprTracker:FlxSprite;
 

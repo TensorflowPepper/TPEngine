@@ -55,6 +55,8 @@ class WebmHandler
 	
 	public function play():Void
 	{
+		trace ("LogLog");
+
 		if (initialized)
 		{
 			webm.play();
@@ -71,6 +73,8 @@ class WebmHandler
 	
 	public function restart():Void
 	{
+		trace ("LogLogLog");
+
 		if (initialized)
 		{
 			webm.restart();

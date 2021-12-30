@@ -76,8 +76,10 @@
 	<assets path="assets/shared"   library="shared"   exclude="*.ogg" if="web"/>
 	<assets path="assets/shared"   library="shared"   exclude="*.mp3" unless="web"/>
 
-	<assets path="assets/videos" include="*.mp3" if="web"/>
-	<assets path="assets/videos" include="*.ogg" unless="web"/>
+	<assets path="assets/videos" include="*.mp3" />
+	<assets path="assets/videos" include="*.ogg" />
+	<assets path="assets/videos" include="*.txt" />
+	<assets path="assets/videos" include="*.webm" />
 	
 	<assets path='assets/mods' embed='false'/>
 	<assets path='art/readme.txt' rename='do NOT readme.txt' />

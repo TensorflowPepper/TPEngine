@@ -21,21 +21,12 @@ class StoryMenuState extends MusicBeatState
 
 	var weeks:Int = 7;
 
-	var weekData:Array<Dynamic> = [
-		// ['Tutorial'],
-		// ['Bopeebo', 'Fresh', 'Dad-Battle'],
-		// ['Spookeez', 'South', "Monster"],
-		// ['Pico', 'Philly-Nice', "Blammed"],
-		// ['Satin-Panties', "High", "M.I.L.F"],
-		// ['Cocoa', 'Eggnog', 'Winter-Horrorland'],
-		// ['Senpai', 'Roses', 'Thorns']
-	];
+	var weekData:Array<Dynamic> = [];
 	var curDifficulty:Int = 1;
 
 	public static var weekUnlocked:Array<Bool> = [true, true, true, true, true, true, true];
 
 	var weekCharacters:Array<Dynamic> = [
-		
 	];
 
 	var weekNames:Array<String> = [

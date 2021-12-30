@@ -3,3 +3,5 @@ export/
 assets/ffmpeg
 source/vlc
 source/MP4Handler.hx
+source/Note_backup.hx
+source/PlayState_backup.hx

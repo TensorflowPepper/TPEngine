@@ -114,9 +114,10 @@ class ChartingState extends MusicBeatState
 				player1: 'bf',
 				player2: 'dad',
 				gfVersion: 'gf',
-				noteStyle: 'tpengine',
+				noteStyle: 'normal',
 				stage: 'stage',
 				speed: 1,
+				keyCount: 4,
 				validScore: false
 			};
 		}

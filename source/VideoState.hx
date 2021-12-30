@@ -62,24 +62,24 @@ class VideoState extends MusicBeatState
 		
 		fuckingVolume = FlxG.sound.music.volume;
 		FlxG.sound.music.volume = 0;
-		var isHTML:Bool = false;
-		#if web
-		isHTML = true;
-		#end
-		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-		add(bg);
-		var html5Text:String = "You Are Not Using HTML5...\nThe Video Didnt Load!";
-		if (isHTML)
-		{
-			html5Text = "You Are Using HTML5!";
-		}
-		defaultText = "If Your On HTML5\nTap Anything...\nThe Bottom Text Indicates If You\nAre Using HTML5...\n\n" + html5Text;
-		txt = new FlxText(0, 0, FlxG.width,
-			defaultText,
-			32);
-		txt.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, CENTER);
-		txt.screenCenter();
-		add(txt);
+		// var isHTML:Bool = false;
+		// #if web
+		// isHTML = true;
+		// #end
+		// var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		// add(bg);
+		// var html5Text:String = "You Are Not Using HTML5...\nThe Video Didnt Load!";
+		// if (isHTML)
+		// {
+		// 	html5Text = "You Are Using HTML5!";
+		// }
+		// defaultText = "If Your On HTML5\nTap Anything...\nThe Bottom Text Indicates If You\nAre Using HTML5...\n\n" + html5Text;
+		// txt = new FlxText(0, 0, FlxG.width,
+		// 	defaultText,
+		// 	32);
+		// txt.setFormat("ONE Mobile POP", 32, FlxColor.WHITE, CENTER);
+		// txt.screenCenter();
+		// add(txt);
 
 		if (GlobalVideo.isWebm)
 		{
@@ -104,29 +104,33 @@ class VideoState extends MusicBeatState
 			GlobalVideo.get().play();
 		}
 		
-		/*if (useSound)
-		{*/
-			//vidSound = FlxG.sound.play(leSource.replace(".webm", ".ogg"));
+		if (useSound) {
+			trace ("Using Sound");
+			vidSound = FlxG.sound.play(leSource.replace(".webm", ".ogg"));
 		
-			/*new FlxTimer().start(0.1, function(tmr:FlxTimer)
-			{*/
+			new FlxTimer().start(0.1, function(tmr:FlxTimer)
+			{
 				vidSound.time = vidSound.length * soundMultiplier;
-				/*new FlxTimer().start(1.2, function(tmr:FlxTimer)
+				new FlxTimer().start(1.2, function(tmr:FlxTimer)
 				{
 					if (useSound)
 					{
 						vidSound.time = vidSound.length * soundMultiplier;
 					}
-				}, 0);*/
+				}, 0);
 				doShit = true;
-			//}, 1);
-		//}
+			}, 1);
+
+			trace ("Using Sound");
+		}
 		
 		if (autoPause && FlxG.sound.music != null && FlxG.sound.music.playing)
 		{
 			musicPaused = true;
 			FlxG.sound.music.pause();
 		}
+
+		trace ("Log");
 	}
 	
 	override function update(elapsed:Float)
@@ -135,8 +139,12 @@ class VideoState extends MusicBeatState
 		
 		if (useSound)
 		{
+			trace ("Using Sound");
+
 			var wasFuckingHit = GlobalVideo.get().webm.wasHitOnce;
 			soundMultiplier = GlobalVideo.get().webm.renderedCount / videoFrames;
+
+			trace ("Using Sound");
 			
 			if (soundMultiplier > 1)
 			{
@@ -146,41 +154,55 @@ class VideoState extends MusicBeatState
 			{
 				soundMultiplier = 0;
 			}
+
+			trace ("Using Sound");
+
 			if (doShit)
 			{
 				var compareShit:Float = 50;
 				if (vidSound.time >= (vidSound.length * soundMultiplier) + compareShit || vidSound.time <= (vidSound.length * soundMultiplier) - compareShit)
 					vidSound.time = vidSound.length * soundMultiplier;
 			}
-			if (wasFuckingHit)
-			{
-			if (soundMultiplier == 0)
-			{
-				if (prevSoundMultiplier != 0)
-				{
-					vidSound.pause();
-					vidSound.time = 0;
+
+			trace ("Using Sound");
+
+			if (wasFuckingHit) {
+				trace ("Using Sound");
+				if (soundMultiplier == 0) {
+					trace ("Using Sound");
+					if (prevSoundMultiplier != 0) {
+						trace ("Using Sound");
+						vidSound.pause();
+						vidSound.time = 0;
+					}
+				} else {
+					trace ("Using Sound");
+					if (prevSoundMultiplier == 0) {
+						trace ("Using Sound");
+						vidSound.resume();
+						vidSound.time = vidSound.length * soundMultiplier;
+					}
 				}
-			} else {
-				if (prevSoundMultiplier == 0)
-				{
-					vidSound.resume();
-					vidSound.time = vidSound.length * soundMultiplier;
-				}
-			}
-			prevSoundMultiplier = soundMultiplier;
+				prevSoundMultiplier = soundMultiplier;
 			}
 		}
-		
+		trace ("Using Sound");
+
 		if (notDone)
 		{
 			FlxG.sound.music.volume = 0;
 		}
+
+		trace ("Using Sound");
+
 		GlobalVideo.get().update(elapsed);
+
+		trace ("Using Sound");
 
 		if (controls.RESET)
 		{
 			GlobalVideo.get().restart();
+			trace ("Using Sound");
 		}
 		
 		if (FlxG.keys.justPressed.P)
@@ -221,14 +243,21 @@ class VideoState extends MusicBeatState
 			}
 		}
 		
+		trace ("Using Sound");
+
 		if (GlobalVideo.get().played || GlobalVideo.get().restarted)
 		{
 			GlobalVideo.get().show();
+			trace ("Using Sound");
 		}
 		
+		trace ("Using Sound");
+
 		GlobalVideo.get().restarted = false;
 		GlobalVideo.get().played = false;
 		GlobalVideo.get().stopped = false;
 		GlobalVideo.get().ended = false;
+
+		trace ("Using Sound");
 	}
 }

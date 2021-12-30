@@ -27,14 +27,42 @@ class Note extends FlxSprite
 
 	public var noteScore:Float = 1;
 
+	public var mania:Int = 0;		
+	public var noteType:Int = 0;		
+	public static var noteyOff1:Array<Float> = [4, 0, 0, 0, 0, 0];		
+	public static var noteyOff2:Array<Float> = [0, 0, 0, 0, 0, 0];		
+	public static var noteyOff3:Array<Float> = [0, 0, 0, 0, 0, 0];
+
 	public static var swagWidth:Float = 160 * 0.7;
+	public static var noteScale:Float;
 	public static var PURP_NOTE:Int = 0;
 	public static var GREEN_NOTE:Int = 2;
 	public static var BLUE_NOTE:Int = 1;
 	public static var RED_NOTE:Int = 3;
 
+	public static var EX1_NOTE:Int = 4;		
+	public static var EX2_NOTE:Int = 5;		
+	public static var tooMuch:Float = 30;		
+	public var dType:Int = 0;
+
 	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false)
 	{
+		swagWidth = 160 * 0.7;
+		noteScale = 0.7;		
+		mania = 0;		
+		if (PlayState.SONG.keyCount == 6)		
+		{		
+			swagWidth = 120 * 0.7;		
+			noteScale = 0.6;		
+			mania = 1;		
+		}		
+		else if (PlayState.SONG.keyCount == 9)
+		{		
+			swagWidth = 90 * 0.7;		
+			noteScale = 0.46;		
+			mania = 2;		
+		}
+
 		super();
 
 		if (prevNote == null)
@@ -46,9 +74,12 @@ class Note extends FlxSprite
 		x += (FlxG.save.data.middlescroll ? PlayState.STRUM_X_MIDDLESCROLL : PlayState.STRUM_X) + 50;
 		// MAKE SURE ITS DEFINITELY OFF SCREEN?
 		y -= 2000;
-		this.strumTime = strumTime;
 
-		this.noteData = noteData;
+		var t = Std.int(noteData / Main.dataJump[mania]);
+		this.noteType = t;		
+		this.noteData = noteData % Main.keyAmmo[mania];
+
+		this.strumTime = strumTime;
 
 		var daStage:String = PlayState.curStage;
 
