@@ -86,7 +86,7 @@ class PauseSubState extends MusicBeatSubstate
 		FlxTween.tween(levelInfo, {alpha: 1, y: 20}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.1});
 		FlxTween.tween(levelDifficulty, {alpha: 1, y: levelDifficulty.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.2});
 		FlxTween.tween(levelDeath, {alpha: 1, y: levelDeath.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.3});
-		FlxTween.tween(practiceWatermark, {alpha: 1, y: levelDeath.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.4});
+		FlxTween.tween(practiceWatermark, {alpha: 1, y: practiceWatermark.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.4});
 
 		grpMenuShit = new FlxTypedGroup<Alphabet>();
 		add(grpMenuShit);
@@ -94,7 +94,6 @@ class PauseSubState extends MusicBeatSubstate
 		for (i in 0...menuItems.length)
 		{
 			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, menuItems[i], true, false);
-			songText.screenCenter(X);
 			songText.isMenuItem = true;
 			songText.targetY = i;
 			grpMenuShit.add(songText);
@@ -162,7 +161,7 @@ class PauseSubState extends MusicBeatSubstate
 				case "Exit to menu":
 					PlayState.curBlueBalled = 0;
 					PlayState.curSongDifficultyLists = [];
-					FlxG.switchState(PlayState.isStoryMode ? new StoryMenuState() : new FreeplayState());
+					FlxG.switchState(new StoryMenuState());
 				case "Back":
 					menuItems = ['Resume', 'Restart Song', 'Change Difficulty', 'Botplay', 'Practice Mode', 'Exit to menu'];
 					for (i in 0...grpMenuShit.members.length) {

@@ -496,25 +496,25 @@ class Character extends FlxSprite
 
 				playAnim('idle');
 
-				case 'tankman':
-					tex = Paths.getSparrowAtlas('tankmanCaptain');
-					frames = tex;
-					animation.addByPrefix('idle', 'Tankman Idle Dance instance', 24);
-					animation.addByPrefix('singUP', 'Tankman UP note instance', 24);
-					animation.addByPrefix('singLEFT', 'Tankman Right Note instance', 24);
-					animation.addByPrefix('singDOWN', 'Tankman DOWN note instance', 24);
-					animation.addByPrefix('singRIGHT', 'Tankman Note Left instance', 24);
-					animation.addByPrefix('ugh', 'TANKMAN UGH instance', 24);
-					animation.addByPrefix('prettyGood', 'PRETTY GOOD tankman instance', 24);
+			case 'tankman':
+				tex = Paths.getSparrowAtlas('tankmanCaptain');
+				frames = tex;
+				animation.addByPrefix('idle', 'Tankman Idle Dance instance', 24);
+				animation.addByPrefix('singUP', 'Tankman UP note instance', 24);
+				animation.addByPrefix('singLEFT', 'Tankman Right Note instance', 24);
+				animation.addByPrefix('singDOWN', 'Tankman DOWN note instance', 24);
+				animation.addByPrefix('singRIGHT', 'Tankman Note Left instance', 24);
+				animation.addByPrefix('ugh', 'TANKMAN UGH instance', 24);
+				animation.addByPrefix('prettyGood', 'PRETTY GOOD tankman instance', 24);
 
-					addOffset('idle');
-					addOffset("singUP", -6, 50);
-					addOffset("singRIGHT", 0, 27);
-					addOffset("singLEFT", -10, 10);
-					addOffset("singDOWN", 0, -30);
+				addOffset('idle');
+				addOffset("singUP", -6, 50);
+				addOffset("singRIGHT", 0, 27);
+				addOffset("singLEFT", -10, 10);
+				addOffset("singDOWN", 0, -30);
 
-					playAnim('idle');
-					flipX = true;
+				playAnim('idle');
+				flipX = true;
 		}
 
 		dance();

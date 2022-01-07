@@ -5,3 +5,4 @@ source/vlc
 source/MP4Handler.hx
 source/Note_backup.hx
 source/PlayState_backup.hx
+source/FreeplayState_backup.hx

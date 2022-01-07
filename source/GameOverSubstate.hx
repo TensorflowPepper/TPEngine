@@ -16,6 +16,8 @@ class GameOverSubstate extends MusicBeatSubstate
 
 	public function new(x:Float, y:Float)
 	{
+		LoadingState.loadAndSwitchState(new PlayState());
+
 		var daStage = PlayState.curStage;
 		var daBf:String = '';
 		switch (daStage)
@@ -66,10 +68,7 @@ class GameOverSubstate extends MusicBeatSubstate
 			PlayState.curBlueBalled = 0;
 			PlayState.curSongDifficultyLists = [];
 
-			if (PlayState.isStoryMode)
-				FlxG.switchState(new StoryMenuState());
-			else
-				FlxG.switchState(new FreeplayState());
+			FlxG.switchState(new StoryMenuState());
 		}
 
 		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.curFrame == 12)

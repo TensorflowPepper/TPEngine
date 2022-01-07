@@ -87,6 +87,7 @@ class MusicPlayerState extends MusicBeatState
 
 			iconArray.push(icon);
 			add(icon);
+			songText.screenCenter(X);
 		}
 
 		titleText = new FlxText(FlxG.width * 0.7, 5, 0, "", 32);
