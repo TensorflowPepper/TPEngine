@@ -218,7 +218,7 @@ class PlayState extends MusicBeatState
 
 		keyCount = SONG.keyCount != null ? SONG.keyCount : 4;
 
-		for (i in 3...8) {
+		for (i in 3...9) {
 			switch (curSongData[i]) {
 				case "0": curAdd = false;
 				case "1": curAdd = true;

@@ -171,6 +171,7 @@ class TitleState extends MusicBeatState
 
 		var logo:FlxSprite = new FlxSprite().loadGraphic(Paths.image('logo'));
 		logo.screenCenter();
+		logo.y -= FlxG.height * 0.18;
 		logo.antialiasing = true;
 		// add(logo);
 

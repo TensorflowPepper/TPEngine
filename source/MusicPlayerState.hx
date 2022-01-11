@@ -29,24 +29,13 @@ class MusicPlayerState extends MusicBeatState
 	var lerpScore:Int = 0;
 	var intendedScore:Int = 0;
 
-	var gfDance:FlxSprite;
-
 	private var grpSongs:FlxTypedGroup<Alphabet>;
     private var vocal:FlxSound;
-	// private var curPlayingVocal:Bool = false;
-    // private var curPlayingInst:Bool = false;
 
 	private var iconArray:Array<HealthIcon> = [];
 
 	override function create()
 	{
-		gfDance = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.07);
-		gfDance.frames = Paths.getSparrowAtlas('gfDanceTitle');
-		gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
-		gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
-		gfDance.antialiasing = true;
-		add(gfDance);
-
 		if (!FlxG.sound.music.playing)
 			FlxG.sound.playMusic(Paths.music('freakyMenu'));
 
@@ -87,7 +76,6 @@ class MusicPlayerState extends MusicBeatState
 
 			iconArray.push(icon);
 			add(icon);
-			songText.screenCenter(X);
 		}
 
 		titleText = new FlxText(FlxG.width * 0.7, 5, 0, "", 32);
@@ -160,6 +148,8 @@ class MusicPlayerState extends MusicBeatState
 
 		if (controls.BACK)
 		{
+			FlxG.sound.music.stop();
+			FlxG.sound.playMusic(Paths.music('freakyMenu'));
 			FlxG.switchState(new MainMenuState());
 		}
 
@@ -181,50 +171,18 @@ class MusicPlayerState extends MusicBeatState
 
 		if (accepted)
 		{
-		    // vocal.volume = 0;
-			trace ('hi');
-
-            if(vocal != null) {
-				trace ('hi');
-                vocal.stop();
-				trace ('hi');
-                vocal.destroy();
-				trace ('hi');
-            }
-
-            vocal.persist = true;
-			trace ('hi');
-            vocal.looped = true;
-			trace ('hi');
 
 			switch (curMode) {
                 case 0:
                     FlxG.sound.music.volume = 1;
-					trace ('hi');
-		            // vocal.volume = 1;
-					trace ('hi');
                     FlxG.sound.muted = false;
-					trace ('hi');
+					FlxG.sound.music.stop();
                     FlxG.sound.playMusic(Paths.inst(songs[curSelected].songName.toLowerCase().replace(' ', '-')), 0);
-					trace ('hi');
                 case 1:
                     FlxG.sound.music.volume = 1;
-		            // vocal.volume = 1;
                     FlxG.sound.muted = false;
 					FlxG.sound.music.stop();
-					// vocal = new FlxSound().loadEmbedded(Paths.voices(songs[curSelected].songName.toLowerCase().replace(' ', '-')));
 					FlxG.sound.playMusic(Paths.voices(songs[curSelected].songName.toLowerCase().replace(' ', '-')));
-                    // FlxG.sound.list.add(vocal);
-                    // vocal.play();
-                case 2:
-                    FlxG.sound.music.volume = 1;
-		            // vocal.volume = 1;
-                    FlxG.sound.muted = false;
-					FlxG.sound.music.stop();
-					// vocal = new FlxSound().loadEmbedded(Paths.voices(songs[curSelected].songName.toLowerCase().replace(' ', '-')));
-                    FlxG.sound.list.add(new FlxSound().loadEmbedded(Paths.voices(songs[curSelected].songName.toLowerCase().replace(' ', '-'))));
-                    FlxG.sound.playMusic(Paths.inst(songs[curSelected].songName.toLowerCase().replace(' ', '-')), 0);
-                    // vocal.play();
             }
 		}
 	}
@@ -234,8 +192,8 @@ class MusicPlayerState extends MusicBeatState
 		curMode += change;
 
 		if (curMode < 0)
-			curMode = 2;
-		if (curMode > 2)
+			curMode = 1;
+		if (curMode > 1)
 			curMode = 0;
 
 		switch (curMode)
@@ -244,8 +202,6 @@ class MusicPlayerState extends MusicBeatState
 				modeText.text = "Inst Only";
 			case 1:
 				modeText.text = 'Vocals Only';
-			case 2:
-				modeText.text = "Full Song";
 		}
 	}
 
@@ -275,12 +231,10 @@ class MusicPlayerState extends MusicBeatState
 			bullShit++;
 
 			item.alpha = 0.6;
-			// item.setGraphicSize(Std.int(item.width * 0.8));
 
 			if (item.targetY == 0)
 			{
 				item.alpha = 1;
-				// item.setGraphicSize(Std.int(item.width));
 			}
 		}
 	}
