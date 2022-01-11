@@ -1,6 +1,7 @@
 FNF TPEngine Team
 TensorflowPepper--Leader and Programmer
-GGoBugi--Artist
-Awesome--Music and SFX
-asdf--Charter of Expert/Insane Difficulty
-null--Builder of Windows Platform
+GGoBugi--Artist--icon5.png
+pnaqw212--Note Asset Designer--icon4.png
+PeanutCore--Artist--icon2.png
+asdf--Charter of Expert/Insane Difficulty(Tutorial~Week2)--icon3.png
+16384--Sub Programmer and Windows Builder--icon1.png
