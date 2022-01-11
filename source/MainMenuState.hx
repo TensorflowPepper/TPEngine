@@ -22,7 +22,9 @@ class MainMenuState extends MusicBeatState
 {
 	var curSelected:Int = 0;
 	var danceLeft:Bool = true;
-	var gfDance:FlxSprite;
+	var bfDance:Character;
+
+	var isMissAnim = false;
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
 	static public var version:String = "0.1";
@@ -33,6 +35,8 @@ class MainMenuState extends MusicBeatState
 	var optionShit:Array<String> = ['story mode', 'freeplay'];
 	#end
 
+	var animShit:Array<String> = ['singLEFT', 'singRIGHT', 'singDOWN', 'singUP'];
+
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
 
@@ -40,13 +44,7 @@ class MainMenuState extends MusicBeatState
 
 	override function create()
 	{
-		gfDance = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.07);
-		gfDance.frames = Paths.getSparrowAtlas('gfDanceTitle');
-		gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
-		gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
-		gfDance.antialiasing = true;
-		gfDance.visible = true;
-		add(gfDance);
+		if (FlxG.random.bool(5)) isMissAnim = true;
 
 		#if desktop
 		// Updating Discord Rich Presence
@@ -90,6 +88,11 @@ class MainMenuState extends MusicBeatState
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
 
+		bfDance = new Character(FlxG.width * 0.5, 0, 'bf');
+		bfDance.flipX = !bfDance.flipX;
+ 
+		add(bfDance);
+
 		var tex = Paths.getSparrowAtlas('FNF_main_menu_assets');
 
 		for (i in 0...optionShit.length)
@@ -108,7 +111,7 @@ class MainMenuState extends MusicBeatState
 			menuItem.x += 2500;
 		}
 
-		FlxG.camera.follow(camFollow, null, 0.06);
+		// FlxG.camera.follow(camFollow, null, 0.06);
 
 		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "FNF' Version " + Application.current.meta.get('version') + " TPEngine Ver. " + version, 12);
 		versionShit.scrollFactor.set();
@@ -127,13 +130,6 @@ class MainMenuState extends MusicBeatState
 	override function beatHit() {
 		super.beatHit();
 		trace(curBeat);
-
-		danceLeft = !danceLeft;
-
-		if (danceLeft)
-			gfDance.animation.play('danceRight');
-		else
-			gfDance.animation.play('danceLeft');
 	}
 
 	override function update(elapsed:Float)
@@ -142,6 +138,16 @@ class MainMenuState extends MusicBeatState
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
 		}
+
+		if (!selectedSomethin) {
+			if (isMissAnim)	bfDance.playAnim(animShit[curSelected] + 'miss');
+			else bfDance.playAnim(animShit[curSelected]);
+		}
+
+		bfDance.screenCenter(X);
+		bfDance.screenCenter(Y);
+
+		bfDance.x -= FlxG.width * 0.25;
 
 		if (!selectedSomethin)
 		{
@@ -177,7 +183,10 @@ class MainMenuState extends MusicBeatState
 					selectedSomethin = true;
 					FlxG.sound.play(Paths.sound('confirmMenu'));
 
+					bfDance.playAnim('hey');
+
 					FlxFlicker.flicker(magenta, 1.1, 0.15, false);
+					FlxFlicker.flicker(bfDance, 1.1, 0.15, false);
 
 					menuItems.forEach(function(spr:FlxSprite)
 					{
@@ -223,7 +232,7 @@ class MainMenuState extends MusicBeatState
 
 		menuItems.forEach(function(spr:FlxSprite)
 		{
-			spr.x = (FlxG.width * 0.5 + defaultX) - spr.width;
+			spr.x = (FlxG.width * 0.6 + defaultX) - spr.width;
 		});
 	}
 

@@ -267,7 +267,7 @@ class Character extends FlxSprite
 				flipX = true;
 
 			case 'bf':
-				var tex = Paths.getSparrowAtlas('BOYFRIEND');
+				var tex = Paths.getSparrowAtlas('BOYFRIEND', 'shared');
 				frames = tex;
 				animation.addByPrefix('idle', 'BF idle dance', 24, false);
 				animation.addByPrefix('singUP', 'BF NOTE UP0', 24, false);
@@ -507,11 +507,11 @@ class Character extends FlxSprite
 				animation.addByPrefix('ugh', 'TANKMAN UGH instance', 24);
 				animation.addByPrefix('prettyGood', 'PRETTY GOOD tankman instance', 24);
 
-				addOffset('idle');
-				addOffset("singUP", -6, 50);
-				addOffset("singRIGHT", 0, 27);
-				addOffset("singLEFT", -10, 10);
-				addOffset("singDOWN", 0, -30);
+				addOffset('idle', 212, -70);
+				addOffset("singUP", 307, -30);
+				addOffset("singRIGHT", 330, -103);
+				addOffset("singLEFT", 230, -80);
+				addOffset("singDOWN", 296, -170);
 
 				playAnim('idle');
 				flipX = true;

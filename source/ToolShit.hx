@@ -17,7 +17,7 @@ class ToolShit {
         var accuracy:Float;
 
         if (FlxG.save.data.ghosttap) {
-            if (sicks + goods + bads + shits + misses != 0) accuracy = truncateFloat((sicks * 100 + goods * 80 + bads * 50 + shits * 40) / (sicks + goods + bads + shits + misses), 4);
+            if (sicks + goods + bads + shits + misses != 0) accuracy = truncateFloat((sicks * 100 + goods * 80 + bads * 50 + shits * 40) / (sicks + goods + bads + shits + misses), 2);
             else accuracy = 0;
         } else {
             if (sicks + goods + bads + shits + misses + ghosttaps != 0) accuracy = truncateFloat((sicks * 100 + goods * 80 + bads * 50 + shits * 40) / (sicks + goods + bads + shits + misses + ghosttaps), 3);
